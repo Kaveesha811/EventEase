@@ -1,0 +1,1092 @@
+/* =========================================================
+   EventEase - Main Website Styles
+   Simple and reusable styles for the whole application
+   ========================================================= */
+
+
+/* -------------------------
+   1. Basic Page Settings
+   ------------------------- */
+
+* {
+    box-sizing: border-box;
+}
+
+body {
+    margin: 0;
+    font-family: "Segoe UI", Tahoma, sans-serif;
+    background: #f4f7fb;
+    color: #172033;
+    line-height: 1.5;
+}
+
+a {
+    text-decoration: none;
+}
+
+
+/* -------------------------
+   2. Navigation Bar
+   ------------------------- */
+
+.navbar {
+    background: #152238;
+    color: white;
+    padding: 16px 6%;
+    min-height: 64px;
+
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.navbar h2 {
+    margin: 0;
+    color: #ffffff;
+    font-size: 22px;
+    letter-spacing: 0;
+}
+
+.navbar-links {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 20px;
+}
+
+.nav-links {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 12px;
+}
+
+.navbar a {
+    color: white;
+    font-size: 14px;
+    padding: 7px 10px;
+    border-radius: 6px;
+}
+
+.navbar a:hover {
+    background: #253858;
+    text-decoration: none;
+}
+
+.nav-links a:hover {
+    background: #253858;
+    text-decoration: none;
+}
+
+
+/* -------------------------
+   3. Main Container
+   ------------------------- */
+
+.container {
+    width: 92%;
+    max-width: 1150px;
+    margin: 38px auto;
+}
+
+.dashboard-container {
+    width: 92%;
+    max-width: 1150px;
+    margin: 38px auto;
+}
+
+.dashboard-header {
+    margin-bottom: 24px;
+}
+
+.page-kicker {
+    display: inline-block;
+    margin-bottom: 8px;
+    color: #1769aa;
+    font-size: 12px;
+    font-weight: 800;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+}
+
+.dashboard-header h1 {
+    margin: 0 0 8px;
+    color: #152238;
+    font-size: 30px;
+}
+
+.dashboard-header p,
+.section-description {
+    color: #64748b;
+}
+
+.vendor-steps {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 12px;
+    margin-bottom: 22px;
+}
+
+.vendor-step {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 14px;
+    background: #ffffff;
+    border: 1px solid #e4eaf2;
+    border-radius: 8px;
+    color: #53657d;
+}
+
+.vendor-step.active {
+    border-color: #9bc5e2;
+    box-shadow: 0 4px 12px rgba(23, 105, 170, 0.08);
+}
+
+.vendor-step-number {
+    display: grid;
+    place-items: center;
+    flex: 0 0 30px;
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    background: #e8eef5;
+    color: #53657d;
+    font-weight: 800;
+}
+
+.vendor-step.active .vendor-step-number {
+    background: #1769aa;
+    color: #ffffff;
+}
+
+.vendor-step:nth-child(2) .vendor-step-number {
+    background: #fff1d6;
+    color: #b06a16;
+}
+
+.vendor-step:nth-child(3) .vendor-step-number {
+    background: #dcfce7;
+    color: #15805f;
+}
+
+.vendor-step:nth-child(2) {
+    border-top: 3px solid #e7a83b;
+}
+
+.vendor-step:nth-child(3) {
+    border-top: 3px solid #35a979;
+}
+
+.vendor-step strong,
+.vendor-step small {
+    display: block;
+}
+
+.vendor-step strong {
+    color: #152238;
+    font-size: 14px;
+}
+
+.vendor-step small {
+    margin-top: 2px;
+    font-size: 12px;
+}
+
+.section {
+    margin-bottom: 22px;
+    padding: 24px;
+    background: #ffffff;
+    border: 1px solid #e4eaf2;
+    border-radius: 8px;
+    box-shadow: 0 6px 18px rgba(25, 48, 82, 0.07);
+}
+
+.section:first-of-type {
+    border-top: 3px solid #1769aa;
+}
+
+.service-create-section {
+    border-top: 5px solid #1769aa;
+    background: #ffffff;
+}
+
+.service-create-section h2::before {
+    content: "+";
+    display: inline-grid;
+    place-items: center;
+    width: 28px;
+    height: 28px;
+    margin-right: 9px;
+    border-radius: 50%;
+    background: #e3f1fb;
+    color: #1769aa;
+    font-size: 20px;
+    vertical-align: -3px;
+}
+
+.service-list-section {
+    border-top: 5px solid #35a979;
+    background: #fbfdfc;
+}
+
+.service-list-section h2::before {
+    content: "✓";
+    display: inline-grid;
+    place-items: center;
+    width: 28px;
+    height: 28px;
+    margin-right: 9px;
+    border-radius: 50%;
+    background: #e2f6eb;
+    color: #15805f;
+    font-size: 16px;
+    vertical-align: 1px;
+}
+
+.section h2 {
+    margin: 0 0 8px;
+    color: #152238;
+}
+
+.form-hint {
+    margin: -4px 0 20px;
+    color: #64748b;
+    font-size: 13px;
+}
+
+.package-total-preview {
+    margin: 8px 0 0;
+    color: #15805f;
+    font-size: 13px;
+    font-weight: 700;
+}
+
+.table-container {
+    width: 100%;
+    overflow-x: auto;
+}
+
+.table-container table {
+    min-width: 780px;
+}
+
+.table-container td:last-child {
+    white-space: nowrap;
+}
+
+.table-container td a {
+    display: inline-block;
+    margin-right: 8px;
+    color: #1769aa;
+    font-weight: 700;
+}
+
+.table-container td form {
+    display: inline;
+}
+
+.dashboard-links {
+    margin: 8px 0 35px;
+}
+
+.dashboard-links a {
+    color: #1769aa;
+    font-weight: 700;
+}
+
+.service-package-link {
+    margin-left: 8px;
+}
+
+.edit-service-card {
+    max-width: 760px;
+    margin-bottom: 24px;
+    border-top: 5px solid #e7a83b;
+}
+
+.edit-service-actions {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 10px;
+    margin-top: 8px;
+}
+
+.empty-message {
+    padding: 18px;
+    background: #f7f9fc;
+    border: 1px solid #e7edf4;
+    border-radius: 6px;
+    color: #64748b;
+}
+
+.package-original-price,
+.package-saving {
+    display: block;
+    font-size: 13px;
+}
+
+.package-original-price {
+    color: #94a3b8;
+    text-decoration: line-through;
+}
+
+.package-saving {
+    margin: 4px 0;
+    color: #15805f;
+    font-weight: 700;
+}
+
+
+/* -------------------------
+   4. Page Header
+   ------------------------- */
+
+.page-header {
+    margin-bottom: 25px;
+}
+
+.page-header h1 {
+    margin: 0 0 8px;
+    color: #152238;
+    font-size: 30px;
+}
+
+.page-header p {
+    margin: 0;
+    color: #6b7280;
+}
+
+
+/* -------------------------
+   5. Cards
+   ------------------------- */
+
+.card {
+    background: white;
+    padding: 24px;
+
+    border: 1px solid #e4eaf2;
+    border-radius: 8px;
+
+    box-shadow:
+        0 6px 18px
+        rgba(25, 48, 82, 0.07);
+}
+
+.cards {
+    display: grid;
+
+    grid-template-columns:
+        repeat(
+            auto-fit,
+            minmax(240px, 1fr)
+        );
+
+    gap: 20px;
+}
+
+
+/* -------------------------
+   6. Buttons
+   ------------------------- */
+
+.btn {
+    display: inline-block;
+
+    padding: 10px 16px;
+
+    border-radius: 6px;
+
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background 0.2s ease, transform 0.2s ease;
+}
+
+.btn:hover {
+    transform: translateY(-1px);
+}
+
+.btn-primary {
+    background: #1769aa;
+    color: white;
+}
+
+.btn-primary:hover {
+    background: #125685;
+}
+
+.btn-success {
+    background: #15805f;
+    color: white;
+}
+
+.btn-success:hover {
+    background: #047857;
+}
+
+.btn-secondary {
+    background: #e5e7eb;
+    color: #111827;
+}
+
+.btn-secondary:hover {
+    background: #d1d5db;
+}
+
+.btn-danger {
+    background: #dc2626;
+    color: white;
+}
+
+.btn-danger:hover {
+    background: #b91c1c;
+}
+
+
+/* -------------------------
+   7. Back Button
+   ------------------------- */
+
+.back-button {
+    display: inline-block;
+
+    padding: 9px 15px;
+
+    background: #e8eef5;
+    color: #24344d;
+
+    border-radius: 6px;
+
+    font-size: 14px;
+}
+
+.back-button:hover {
+    background: #d9e3ee;
+}
+
+
+/* -------------------------
+   8. Forms
+   ------------------------- */
+
+.form-group {
+    margin-bottom: 18px;
+}
+
+.form-group label {
+    display: block;
+
+    margin-bottom: 7px;
+
+    font-size: 14px;
+    font-weight: bold;
+}
+
+.form-group input,
+.form-group select,
+.form-group textarea {
+    width: 100%;
+
+    padding: 11px 12px;
+
+    border: 1px solid #d1d5db;
+    border-radius: 6px;
+
+    background: white;
+
+    font-family: Arial, sans-serif;
+    font-size: 15px;
+}
+
+.form-group input:focus,
+.form-group select:focus,
+.form-group textarea:focus {
+    outline: none;
+    border-color: #2563eb;
+}
+
+.event-type-options {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    padding: 12px;
+    background: #f7f9fc;
+    border: 1px solid #e7edf4;
+    border-radius: 6px;
+}
+
+.event-type-option {
+    display: inline-flex;
+    align-items: center;
+    gap: 7px;
+    padding: 8px 10px;
+    background: #ffffff;
+    border: 1px solid #dbe4ee;
+    border-radius: 6px;
+    color: #24344d;
+    font-size: 13px;
+    font-weight: 600;
+}
+
+.event-type-option input {
+    width: auto;
+}
+
+
+/* -------------------------
+   9. Tables
+   ------------------------- */
+
+.table-wrapper {
+    width: 100%;
+    overflow-x: auto;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+table th,
+table td {
+    padding: 12px;
+
+    border-bottom: 1px solid #e5e7eb;
+
+    text-align: left;
+}
+
+table th {
+    background: #eef3f8;
+    font-size: 14px;
+}
+
+table td {
+    font-size: 14px;
+}
+
+
+/* -------------------------
+   10. Status Badges
+   ------------------------- */
+
+.status {
+    display: inline-block;
+
+    padding: 6px 10px;
+
+    border-radius: 999px;
+
+    font-size: 12px;
+    font-weight: bold;
+}
+
+.status-pending {
+    background: #fef3c7;
+    color: #92400e;
+}
+
+.status-accepted,
+.status-approved {
+    background: #dbeafe;
+    color: #1e40af;
+}
+
+.status-completed {
+    background: #dcfce7;
+    color: #166534;
+}
+
+.status-rejected,
+.status-cancelled {
+    background: #fee2e2;
+    color: #991b1b;
+}
+
+
+/* -------------------------
+   11. Messages
+   ------------------------- */
+
+.message {
+    padding: 13px 16px;
+
+    border-radius: 7px;
+
+    margin-bottom: 20px;
+}
+
+.message-success {
+    background: #dcfce7;
+    color: #166534;
+}
+
+.message-error {
+    background: #fee2e2;
+    color: #991b1b;
+}
+
+.message-info {
+    background: #dbeafe;
+    color: #1e40af;
+}
+
+
+/* -------------------------
+   12. Authentication Pages
+   ------------------------- */
+
+.auth-page {
+    min-height: 100vh;
+    display: grid;
+    place-items: center;
+    padding: 24px;
+    background: #eef3f8;
+}
+
+.auth-container {
+    width: min(100%, 520px);
+}
+
+.auth-card,
+.login-container,
+.register-container {
+    width: min(100%, 520px);
+    margin: 0 auto;
+    padding: 32px;
+    background: #ffffff;
+    border: 1px solid #e1e8f0;
+    border-radius: 8px;
+    box-shadow: 0 12px 30px rgba(25, 48, 82, 0.1);
+}
+
+.auth-card h1,
+.login-container h1,
+.register-container h1 {
+    margin: 0 0 8px;
+    color: #152238;
+    text-align: center;
+}
+
+.auth-description,
+.login-container .subtitle,
+.register-container > p {
+    margin: 0 0 24px;
+    color: #64748b;
+    text-align: center;
+}
+
+.auth-form-title {
+    margin: 0 0 24px;
+    color: #64748b;
+    text-align: center;
+}
+
+.role-choice {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 8px;
+    margin: 0 0 22px;
+    padding: 4px;
+    background: #eef3f8;
+    border-radius: 7px;
+}
+
+.role-choice-link {
+    padding: 10px 12px;
+    border-radius: 5px;
+    color: #53657d;
+    font-size: 14px;
+    font-weight: 700;
+    text-align: center;
+}
+
+.role-choice-link:hover,
+.role-choice-link.active {
+    background: #1769aa;
+    color: #ffffff;
+}
+
+.auth-card .btn,
+.login-btn,
+.register-btn {
+    width: 100%;
+    min-height: 44px;
+    padding: 11px 16px;
+    border: 0;
+    border-radius: 6px;
+    background: #1769aa;
+    color: #ffffff;
+    font-size: 15px;
+    font-weight: 700;
+    cursor: pointer;
+    text-align: center;
+}
+
+.auth-card .btn:hover,
+.login-btn:hover,
+.register-btn:hover {
+    background: #125685;
+}
+
+.auth-footer,
+.login-container .register-link,
+.register-container .login-link {
+    margin-top: 20px;
+    color: #64748b;
+    font-size: 14px;
+    text-align: center;
+}
+
+.auth-footer p {
+    margin: 8px 0;
+}
+
+.auth-footer a,
+.login-container .register-link a,
+.register-container .login-link a {
+    color: #1769aa;
+    font-weight: 700;
+}
+
+.auth-error,
+.error-message {
+    margin: 0 0 16px;
+    color: #b42318;
+    text-align: center;
+}
+
+.success-card {
+    width: min(100%, 520px);
+    padding: 38px 32px;
+    background: #ffffff;
+    border: 1px solid #e1e8f0;
+    border-radius: 8px;
+    box-shadow: 0 12px 30px rgba(25, 48, 82, 0.1);
+    text-align: center;
+}
+
+.success-icon {
+    width: 52px;
+    height: 52px;
+    display: grid;
+    place-items: center;
+    margin: 0 auto 18px;
+    border-radius: 50%;
+    background: #dcfce7;
+    color: #15805f;
+    font-size: 28px;
+    font-weight: 700;
+}
+
+.success-card h1 {
+    margin: 0 0 10px;
+    color: #152238;
+    font-size: 24px;
+}
+
+.success-card p {
+    margin: 0 0 24px;
+    color: #64748b;
+}
+
+.success-secondary-link {
+    display: block;
+    margin-top: 14px;
+    color: #1769aa;
+    font-size: 14px;
+    font-weight: 700;
+}
+
+
+/* -------------------------
+    13. Booking List
+   ------------------------- */
+
+.bookings-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 20px;
+    margin-bottom: 25px;
+}
+
+.bookings-header h1 {
+    margin: 0 0 8px;
+    color: #152238;
+    font-size: 30px;
+}
+
+.bookings-header p {
+    margin: 0;
+    color: #64748b;
+}
+
+.booking-list {
+    display: grid;
+    gap: 18px;
+}
+
+.booking-card {
+    position: relative;
+    overflow: hidden;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.booking-card::before {
+    content: "";
+    position: absolute;
+    inset: 0 0 auto;
+    height: 4px;
+    background: #1769aa;
+}
+
+.booking-card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 10px 24px rgba(25, 48, 82, 0.12);
+}
+
+.booking-title-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 15px;
+    margin-bottom: 18px;
+}
+
+.booking-title-row h2 {
+    margin: 0;
+    color: #152238;
+    font-size: 21px;
+}
+
+.booking-info {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(210px, 1fr));
+    gap: 12px;
+    margin-bottom: 20px;
+}
+
+.info-box {
+    padding: 14px;
+    background: #f7f9fc;
+    border: 1px solid #e7edf4;
+    border-radius: 6px;
+}
+
+.info-label {
+    display: block;
+    margin-bottom: 5px;
+    color: #64748b;
+    font-size: 12px;
+    font-weight: 700;
+}
+
+.info-value {
+    display: block;
+    color: #172033;
+    font-size: 14px;
+    line-height: 1.5;
+    overflow-wrap: anywhere;
+}
+
+.button-group {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 9px;
+    padding-top: 5px;
+}
+
+.view-button,
+.payment-button,
+.review-button,
+.summary-button {
+    display: inline-block;
+    padding: 10px 15px;
+    border-radius: 6px;
+    color: #ffffff;
+    font-size: 13px;
+    font-weight: 700;
+    transition: transform 0.15s ease, opacity 0.15s ease;
+}
+
+.view-button { background: #1769aa; }
+.payment-button { background: #15805f; }
+.review-button { background: #b06a16; }
+.summary-button { background: #53657d; }
+
+.view-button:hover,
+.payment-button:hover,
+.review-button:hover,
+.summary-button:hover {
+    color: #ffffff;
+    transform: translateY(-1px);
+    opacity: 0.9;
+}
+
+.empty-message {
+    padding: 50px 25px;
+    text-align: center;
+}
+
+.empty-message h2 {
+    margin: 0 0 8px;
+}
+
+.empty-message p {
+    margin: 0 0 20px;
+    color: #64748b;
+}
+
+
+/* -------------------------
+   Legacy Page Components
+   ------------------------- */
+
+.event-container,
+.event-card,
+.booking-card,
+.table-card,
+.summary-card,
+.header {
+    border: 1px solid #e4eaf2;
+    border-radius: 8px;
+    box-shadow: 0 6px 18px rgba(25, 48, 82, 0.07);
+}
+
+.event-container,
+.event-card,
+.header,
+.table-card,
+.summary-card {
+    background: #ffffff;
+}
+
+.back-link,
+.back {
+    display: inline-block;
+    padding: 9px 15px;
+    border-radius: 6px;
+    background: #e8eef5;
+    color: #24344d;
+    font-size: 14px;
+    text-decoration: none;
+}
+
+.back-link:hover,
+.back:hover {
+    background: #d9e3ee;
+    color: #152238;
+}
+
+.detail-box,
+.detail,
+.event-detail {
+    background: #f7f9fc;
+    border: 1px solid #e7edf4;
+    border-radius: 6px;
+}
+
+.header h1,
+.event-card h1,
+.event-card h2 {
+    color: #152238;
+}
+
+.logout a {
+    color: #b42318;
+}
+
+
+/* -------------------------
+    14. Responsive Design
+   ------------------------- */
+
+@media (max-width: 650px) {
+
+    .navbar {
+        padding: 16px 5%;
+    }
+
+    .navbar-links {
+        gap: 12px;
+        justify-content: flex-start;
+    }
+
+    .container {
+        width: 92%;
+        margin: 30px auto;
+    }
+
+    .page-header h1 {
+        font-size: 26px;
+    }
+
+    .bookings-header {
+        align-items: flex-start;
+        flex-direction: column;
+    }
+
+    .bookings-header h1 {
+        font-size: 27px;
+    }
+
+    .booking-title-row {
+        align-items: flex-start;
+        flex-direction: column;
+    }
+
+    .cards {
+        grid-template-columns: 1fr;
+    }
+
+    .vendor-steps {
+        grid-template-columns: 1fr;
+    }
+
+    .service-package-link {
+        display: block;
+        width: fit-content;
+        margin: 12px 0 0;
+    }
+
+    .auth-card,
+    .login-container,
+    .register-container {
+        padding: 24px 20px;
+    }
+
+}
+
+
+/* =========================================================
+   EventEase 2026 usability updates
+   ========================================================= */
+.auth-error, .error-message {
+    background: #fff1f2;
+    border: 1px solid #fecdd3;
+    color: #9f1239;
+    padding: 10px 12px;
+    border-radius: 7px;
+    margin: 12px 0;
+}
+.form-help { display: block; margin-top: 6px; color: #64748b; }
+.forgot-link-row { text-align: right; margin: -4px 0 14px; }
+.forgot-link-row a { color: #1769aa; font-weight: 600; }
+.edit-event-card {
+    max-width: 760px; margin: 0 auto; background: #fff; padding: 28px;
+    border: 1px solid #e4eaf2; border-radius: 10px; box-shadow: 0 6px 18px rgba(25,48,82,.07);
+}
+.form-actions { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 18px; }
+.service-main-action { font-size: 15px; padding: 12px 20px; }
+.event-actions { display: flex; flex-wrap: wrap; gap: 8px; }
+.btn-success { background: #15805f; color: #fff; }
+.btn-success:hover { background: #11694e; }
+.btn-secondary { background: #e8eef5; color: #24344d; }
+.btn-secondary:hover { background: #d8e1ec; }
+
+.facebook-link { color: #1769aa; font-weight: 700; }
+.facebook-link:hover { text-decoration: underline; }
