@@ -1,37 +1,30 @@
 <?php
+class Database {
+    private static $host = 'localhost';
+    private static $dbname = 'eventease2026';
+    private static $username = 'root';
+    private static $password = '';
+    private static $port = '3306';
+    private static $conn = null;
 
-class Database
-{
-    private $host = "localhost";
-    private $db_name = "EventEase2026";
-    private $username = "root";
-    private $password = "";
-
-    public $conn;
-
-    public function connect()
-    {
-        $this->conn = null;
-
-        try {
-            $this->conn = new PDO(
-                "mysql:host=" . $this->host .
-                ";dbname=" . $this->db_name .
-                ";charset=utf8mb4",
-                $this->username,
-                $this->password
-            );
-
-            $this->conn->setAttribute(
-                PDO::ATTR_ERRMODE,
-                PDO::ERRMODE_EXCEPTION
-            );
-
-        } catch (PDOException $exception) {
-            echo "Database Connection Error: "
-                . $exception->getMessage();
+    public static function getConnection() {
+        if (self::$conn === null) {
+            try {
+                self::$conn = new PDO(
+                    "mysql:host=" . self::$host . ";port=" . self::$port . ";dbname=" . self::$dbname . ";charset=utf8mb4",
+                    self::$username,
+                    self::$password,
+                    [
+                        PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION,
+                        PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC,
+                        PDO::ATTR_EMULATE_PREPARES => false,
+                    ]
+                );
+            } catch (PDOException $e) {
+                die("Database connection failed: " . $e->getMessage());
+            }
         }
-
-        return $this->conn;
+        return self::$conn;
     }
 }
+?>

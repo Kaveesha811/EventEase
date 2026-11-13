@@ -1,292 +1,42 @@
 <?php
-
-require_once __DIR__ . '/../../config/database.php';
-
-
-class Vendor
-{
-    private $conn;
-
-
-    /*
-    |--------------------------------------------------------------------------
-    | Constructor
-    |--------------------------------------------------------------------------
-    */
-
-    public function __construct($conn = null)
-    {
-        if ($conn) {
-            $this->conn = $conn;
-        } else {
-            $database = new Database();
-            $this->conn = $database->connect();
-        }
+class Vendor {
+    public static function create($data) {
+        $db = Database::getConnection();
+        $stmt = $db->prepare("INSERT INTO Vendor (user_id, business_name, business_description, business_address, facebook_profile) VALUES (?, ?, ?, ?, ?)");
+        return $stmt->execute([
+            $data['user_id'],
+            $data['business_name'],
+            $data['business_description'],
+            $data['business_address'],
+            $data['facebook_profile']
+        ]);
     }
 
-
-    /*
-    |--------------------------------------------------------------------------
-    | Create Vendor Profile
-    |--------------------------------------------------------------------------
-    */
-
-    public function createVendor(
-        $userID,
-        $businessName,
-        $businessDescription,
-        $businessAddress,
-        $facebookProfile = null
-    ) {
-        $sql =
-            "INSERT INTO Vendor
-            (
-                UserID,
-                BusinessName,
-                BusinessDescription,
-                BusinessAddress,
-                FacebookProfile,
-                VerificationStatus
-            )
-
-            VALUES
-            (
-                :userID,
-                :businessName,
-                :businessDescription,
-                :businessAddress,
-                :facebookProfile,
-                'Pending'
-            )";
-
-        $stmt = $this->conn->prepare($sql);
-
-        $stmt->bindParam(
-            ':userID',
-            $userID,
-            PDO::PARAM_INT
-        );
-
-        $stmt->bindParam(
-            ':businessName',
-            $businessName
-        );
-
-        $stmt->bindParam(
-            ':businessDescription',
-            $businessDescription
-        );
-
-        $stmt->bindParam(
-            ':businessAddress',
-            $businessAddress
-        );
-
-        $stmt->bindValue(
-            ':facebookProfile',
-            $facebookProfile !== '' ? $facebookProfile : null
-        );
-
-        if ($stmt->execute()) {
-            return $this->conn->lastInsertId();
-        }
-
-        return false;
+    public static function findByUserId($userId) {
+        $db = Database::getConnection();
+        $stmt = $db->prepare("SELECT * FROM Vendor WHERE user_id = ?");
+        $stmt->execute([$userId]);
+        return $stmt->fetch();
     }
 
-
-    /*
-    |--------------------------------------------------------------------------
-    | Get All Vendors - Admin
-    |--------------------------------------------------------------------------
-    */
-
-    public function getAllVendors()
-    {
-        $sql =
-            "SELECT
-
-                Vendor.VendorID,
-                Vendor.UserID,
-                Vendor.BusinessName,
-                Vendor.BusinessDescription,
-                Vendor.BusinessAddress,
-                Vendor.FacebookProfile,
-                Vendor.VerificationStatus,
-                Vendor.RegistrationDate,
-
-                Users.FirstName,
-                Users.LastName,
-                Users.Email,
-                Users.Phone,
-                Users.Status AS UserStatus
-
-             FROM Vendor
-
-             INNER JOIN Users
-                ON Vendor.UserID =
-                   Users.UserID
-
-             ORDER BY
-                Vendor.VendorID DESC";
-
-
-        $stmt =
-            $this->conn->prepare(
-                $sql
-            );
-
-
+    public static function getAllPending() {
+        $db = Database::getConnection();
+        $stmt = $db->prepare("SELECT v.*, u.first_name, u.last_name, u.email, u.phone FROM Vendor v JOIN user u ON v.user_id = u.user_id WHERE v.verification_status = 'pending'");
         $stmt->execute();
-
-
-        return $stmt->fetchAll(
-            PDO::FETCH_ASSOC
-        );
+        return $stmt->fetchAll();
     }
 
+    public static function getAllApproved() {
+        $db = Database::getConnection();
+        $stmt = $db->prepare("SELECT v.*, u.first_name, u.last_name, u.email, u.phone FROM Vendor v JOIN user u ON v.user_id = u.user_id WHERE v.verification_status = 'approved'");
+        $stmt->execute();
+        return $stmt->fetchAll();
+    }
 
-    /*
-    |--------------------------------------------------------------------------
-    | Update Vendor Verification Status - Admin
-    |--------------------------------------------------------------------------
-    */
-
-    public function updateVerificationStatus(
-        $vendorID,
-        $newStatus
-    ) {
-
-        try {
-
-            /*
-             * Allowed verification statuses
-             */
-
-            $allowedStatuses = [
-                'Pending',
-                'Approved',
-                'Rejected'
-            ];
-
-
-            if (
-                !in_array(
-                    $newStatus,
-                    $allowedStatuses,
-                    true
-                )
-            ) {
-
-                return [
-                    'success' => false,
-                    'message' =>
-                        'Invalid verification status.'
-                ];
-            }
-
-
-            /*
-             * Check vendor exists
-             */
-
-            $checkSQL =
-                "SELECT
-                    VendorID,
-                    VerificationStatus
-
-                 FROM Vendor
-
-                 WHERE VendorID =
-                       :vendorID
-
-                 LIMIT 1";
-
-
-            $checkStmt =
-                $this->conn->prepare(
-                    $checkSQL
-                );
-
-
-            $checkStmt->bindParam(
-                ':vendorID',
-                $vendorID,
-                PDO::PARAM_INT
-            );
-
-
-            $checkStmt->execute();
-
-
-            $vendor =
-                $checkStmt->fetch(
-                    PDO::FETCH_ASSOC
-                );
-
-
-            if (!$vendor) {
-
-                return [
-                    'success' => false,
-                    'message' =>
-                        'Vendor not found.'
-                ];
-            }
-
-
-            /*
-             * Update verification status
-             */
-
-            $updateSQL =
-                "UPDATE Vendor
-
-                 SET VerificationStatus =
-                     :newStatus
-
-                 WHERE VendorID =
-                       :vendorID";
-
-
-            $updateStmt =
-                $this->conn->prepare(
-                    $updateSQL
-                );
-
-
-            $updateStmt->bindParam(
-                ':newStatus',
-                $newStatus
-            );
-
-
-            $updateStmt->bindParam(
-                ':vendorID',
-                $vendorID,
-                PDO::PARAM_INT
-            );
-
-
-            $updateStmt->execute();
-
-
-            return [
-                'success' => true,
-                'message' =>
-                    'Vendor verification status updated successfully.'
-            ];
-
-
-        } catch (PDOException $exception) {
-
-            return [
-                'success' => false,
-                'message' =>
-                    'Failed to update vendor verification status.'
-            ];
-        }
+    public static function updateVerification($vendorId, $status) {
+        $db = Database::getConnection();
+        $stmt = $db->prepare("UPDATE Vendor SET verification_status = ? WHERE vendor_id = ?");
+        return $stmt->execute([$status, $vendorId]);
     }
 }
-
 ?>

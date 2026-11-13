@@ -1,33 +1,16 @@
 <?php
-
-require_once __DIR__ . '/../../config/database.php';
-
-class Customer
-{
-    private $conn;
-
-    public function __construct($conn = null)
-    {
-        if ($conn) {
-            $this->conn = $conn;
-        } else {
-            $database = new Database();
-            $this->conn = $database->connect();
-        }
+class Customer {
+    public static function create($userId, $address) {
+        $db = Database::getConnection();
+        $stmt = $db->prepare("INSERT INTO Customer (user_id, address) VALUES (?, ?)");
+        return $stmt->execute([$userId, $address]);
     }
 
-    public function createCustomer($userID, $address = null)
-    {
-        $sql = "INSERT INTO Customer
-                (UserID, Address, RegistrationDate)
-                VALUES
-                (:userID, :address, CURDATE())";
-
-        $stmt = $this->conn->prepare($sql);
-
-        $stmt->bindParam(':userID', $userID);
-        $stmt->bindParam(':address', $address);
-
-        return $stmt->execute();
+    public static function findByUserId($userId) {
+        $db = Database::getConnection();
+        $stmt = $db->prepare("SELECT * FROM Customer WHERE user_id = ?");
+        $stmt->execute([$userId]);
+        return $stmt->fetch();
     }
 }
+?>

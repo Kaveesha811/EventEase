@@ -1,171 +1,127 @@
 <?php
-
-require_once __DIR__ . '/../models/Service.php';
-
-class ServiceController
-{
-    private $serviceModel;
-
-    public function __construct()
-    {
-        $this->serviceModel = new Service();
+class ServiceController {
+    private function checkVendorAuth() {
+        if (!isset($_SESSION['user_id']) || $_SESSION['role'] != 'vendor') {
+            header('Location: ?url=auth/login');
+            exit;
+        }
+        $vendor = Vendor::findByUserId($_SESSION['user_id']);
+        if (!$vendor || $vendor['verification_status'] != 'approved') {
+            header('Location: ?url=auth/login');
+            exit;
+        }
+        return $vendor;
     }
 
-
-    /*
-    |--------------------------------------------------------------------------
-    | Get Service Categories
-    |--------------------------------------------------------------------------
-    */
-
-    public function getServiceCategories($eventTypeID = null)
-    {
-        return $this->serviceModel
-            ->getServiceCategories($eventTypeID);
+    public function myServices() {
+        $vendor = $this->checkVendorAuth();
+        $services = Service::getByVendor($vendor['vendor_id']);
+        require_once '../app/views/vendor/my_services.php';
     }
 
-
-    /*
-    |--------------------------------------------------------------------------
-    | Get Vendors by Category
-    |--------------------------------------------------------------------------
-    */
-
-    public function getVendorsByCategory(
-        $serviceCategoryID,
-        $eventDate
-    ) {
-        return $this->serviceModel
-            ->getVendorsByCategory(
-                $serviceCategoryID,
-                $eventDate
-            );
+    public function create() {
+        $vendor = $this->checkVendorAuth();
+        $categories = Service::getCategories();
+        require_once '../app/views/vendor/create_service.php';
     }
 
-
-    /*
-    |--------------------------------------------------------------------------
-    | Get Single Service Details
-    |--------------------------------------------------------------------------
-    */
-
-    public function getServiceDetails(
-        $serviceID,
-        $eventDate
-    ) {
-        return $this->serviceModel
-            ->getServiceDetails(
-                $serviceID,
-                $eventDate
-            );
+    public function store() {
+        $vendor = $this->checkVendorAuth();
+        if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+            $errors = $this->validateService($_POST);
+            if (empty($errors)) {
+                $data = [
+                    'vendor_id' => $vendor['vendor_id'],
+                    'service_category_id' => $_POST['service_category_id'],
+                    'service_name' => trim($_POST['service_name']),
+                    'description' => trim($_POST['description']),
+                    'price' => $_POST['price']
+                ];
+                Service::create($data);
+                $_SESSION['success'] = "Service added successfully.";
+                header('Location: ?url=service/myServices');
+                exit;
+            } else {
+                $_SESSION['errors'] = $errors;
+                $_SESSION['old'] = $_POST;
+                header('Location: ?url=service/create');
+                exit;
+            }
+        }
     }
 
-        /*
-    |--------------------------------------------------------------------------
-    | Get Vendor Services
-    |--------------------------------------------------------------------------
-    */
-
-    public function getVendorServices($vendorID)
-    {
-        return $this->serviceModel
-            ->getVendorServices($vendorID);
+    public function edit($serviceId = null) {
+        $vendor = $this->checkVendorAuth();
+        if (!$serviceId) {
+            header('Location: ?url=service/myServices');
+            exit;
+        }
+        $service = Service::getById($serviceId);
+        if (!$service || $service['vendor_id'] != $vendor['vendor_id']) {
+            $_SESSION['error'] = "You are not authorised to edit this service.";
+            header('Location: ?url=service/myServices');
+            exit;
+        }
+        $categories = Service::getCategories();
+        require_once '../app/views/vendor/edit_service.php';
     }
 
-
-    /*
-    |--------------------------------------------------------------------------
-    | Get Active Service Categories
-    |--------------------------------------------------------------------------
-    */
-
-    public function getActiveServiceCategories()
-    {
-        return $this->serviceModel
-            ->getActiveServiceCategories();
+    public function update($serviceId = null) {
+        $vendor = $this->checkVendorAuth();
+        if (!$serviceId || $_SERVER['REQUEST_METHOD'] != 'POST') {
+            header('Location: ?url=service/myServices');
+            exit;
+        }
+        $service = Service::getById($serviceId);
+        if (!$service || $service['vendor_id'] != $vendor['vendor_id']) {
+            $_SESSION['error'] = "You are not authorised to edit this service.";
+            header('Location: ?url=service/myServices');
+            exit;
+        }
+        $errors = $this->validateService($_POST);
+        if (empty($errors)) {
+            $data = [
+                'service_category_id' => $_POST['service_category_id'],
+                'service_name' => trim($_POST['service_name']),
+                'description' => trim($_POST['description']),
+                'price' => $_POST['price']
+            ];
+            Service::update($serviceId, $data);
+            $_SESSION['success'] = "Service updated successfully.";
+            header('Location: ?url=service/myServices');
+            exit;
+        } else {
+            $_SESSION['errors'] = $errors;
+            $_SESSION['old'] = $_POST;
+            header('Location: ?url=service/edit/' . $serviceId);
+            exit;
+        }
     }
 
-
-    /*
-    |--------------------------------------------------------------------------
-    | Create Vendor Service
-    |--------------------------------------------------------------------------
-    */
-
-    public function createService(
-        $vendorID,
-        $serviceCategoryID,
-        $serviceName,
-        $description,
-        $price
-    ) {
-        return $this->serviceModel
-            ->createService(
-                $vendorID,
-                $serviceCategoryID,
-                $serviceName,
-                $description,
-                $price
-            );
+    public function deactivate($serviceId = null) {
+        $vendor = $this->checkVendorAuth();
+        if (!$serviceId) {
+            header('Location: ?url=service/myServices');
+            exit;
+        }
+        $service = Service::getById($serviceId);
+        if (!$service || $service['vendor_id'] != $vendor['vendor_id']) {
+            $_SESSION['error'] = "You are not authorised to deactivate this service.";
+            header('Location: ?url=service/myServices');
+            exit;
+        }
+        Service::deactivate($serviceId);
+        $_SESSION['success'] = "Service deactivated.";
+        header('Location: ?url=service/myServices');
+        exit;
     }
 
-        /*
-    |--------------------------------------------------------------------------
-    | Get Single Vendor Service
-    |--------------------------------------------------------------------------
-    */
-
-    public function getVendorService(
-        $serviceID,
-        $vendorID
-    ) {
-        return $this->serviceModel
-            ->getVendorService(
-                $serviceID,
-                $vendorID
-            );
-    }
-
-
-    /*
-    |--------------------------------------------------------------------------
-    | Deactivate Vendor Service
-    |--------------------------------------------------------------------------
-    */
-
-    public function deactivateService(
-        $serviceID,
-        $vendorID
-    ) {
-        return $this->serviceModel
-            ->deactivateService(
-                $serviceID,
-                $vendorID
-            );
-    }
-
-        /*
-    |--------------------------------------------------------------------------
-    | Update Vendor Service
-    |--------------------------------------------------------------------------
-    */
-
-    public function updateService(
-        $serviceID,
-        $vendorID,
-        $serviceCategoryID,
-        $serviceName,
-        $description,
-        $price
-    ) {
-        return $this->serviceModel
-            ->updateService(
-                $serviceID,
-                $vendorID,
-                $serviceCategoryID,
-                $serviceName,
-                $description,
-                $price
-            );
+    private function validateService($data) {
+        $errors = [];
+        if (empty($data['service_name'])) $errors[] = "Please enter a service name.";
+        if (empty($data['service_category_id'])) $errors[] = "Please select a category.";
+        if (empty($data['price']) || !is_numeric($data['price']) || $data['price'] <= 0) $errors[] = "Please enter a valid price.";
+        return $errors;
     }
 }
+?>

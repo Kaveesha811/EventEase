@@ -1,100 +1,28 @@
-<!DOCTYPE html>
-<html lang="en">
+<?php include '../app/views/partials/header.php'; ?>
 
-<head>
+<div class="auth-wrapper">
+    <div class="auth-card">
+        <h2>Welcome Back</h2>
+        <p style="text-align:center; color:#7f8c8d; margin-bottom:25px;">Login to EventEase</p>
 
-    <meta charset="UTF-8">
+        <form action="?url=auth/doLogin" method="POST">
+            <div class="form-group">
+                <label>Email</label>
+                <input type="email" name="email" required>
+            </div>
+            <div class="form-group">
+                <label>Password</label>
+                <input type="password" name="password" required>
+            </div>
+            <button type="submit" class="btn">Login</button>
+        </form>
 
-    <meta
-        name="viewport"
-        content="width=device-width, initial-scale=1.0"
-    >
-
-    <title>Login - EventEase</title>
-
-    <link rel="stylesheet" href="css/style.css">
-
-</head>
-
-<body class="auth-page">
-
-<div class="login-container">
-
-    <h1>EventEase</h1>
-
-    <p class="subtitle">
-        Login to your account
-    </p>
-
-    <?php if (!empty($message)): ?>
-
-        <p class="error-message">
-            <?= htmlspecialchars($message) ?>
-        </p>
-
-    <?php endif; ?>
-
-    <form
-        method="POST"
-        action="index.php?page=login"
-    >
-
-        <div class="form-group">
-
-            <label for="email">
-                Email
-            </label>
-
-            <input
-                type="email"
-                id="email"
-                name="email"
-                value="<?= htmlspecialchars($_POST['email'] ?? '') ?>"
-                required
-            >
-
+        <div class="auth-links">
+            <p><a href="?url=auth/forgotPassword">Forgot Password?</a></p>
+            <p>New customer? <a href="?url=auth/registerCustomer">Register here</a></p>
+            <p>Vendor? <a href="?url=auth/registerVendor">Register your business</a></p>
         </div>
-
-        <div class="form-group">
-
-            <label for="password">
-                Password
-            </label>
-
-            <input
-                type="password"
-                id="password"
-                name="password"
-                required
-            >
-
-        </div>
-
-        <div class="forgot-link-row">
-            <a href="index.php?page=forgot_password">Forgot password?</a>
-        </div>
-
-        <button
-            type="submit"
-            class="login-btn"
-        >
-            Login
-        </button>
-
-    </form>
-
-    <div class="register-link">
-
-        Don't have an account?
-
-        <a href="index.php?page=register">
-            Create Account
-        </a>
-
     </div>
-
 </div>
 
-</body>
-
-</html>
+<?php include '../app/views/partials/footer.php'; ?>
